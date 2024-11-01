@@ -4,42 +4,29 @@ class TaskCard extends StatelessWidget {
   final String title;
   final String description;
   final VoidCallback onMarkComplete;
+  final VoidCallback onDelete; // Добавляем callback для удаления
 
   const TaskCard({
     Key? key,
     required this.title,
     required this.description,
     required this.onMarkComplete,
+    required this.onDelete, // Инициализируем callback
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              description,
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: onMarkComplete,
-              child: const Text('Отметить как завершенную'),
-            ),
-          ],
+    return GestureDetector(
+      onTap: onMarkComplete,
+      child: Card(
+        margin: const EdgeInsets.all(8.0),
+        child: ListTile(
+          title: Text(title),
+          subtitle: Text(description),
+          trailing: IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: onDelete, // Обрабатываем нажатие для удаления
+          ),
         ),
       ),
     );
